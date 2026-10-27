@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100d19">
+  <title>المبرمج العربي | اصنع فكرتك بالبلوكات</title>
+  <style>
+    :root{
+      --bg:#0b0911;--panel:#14111e;--panel2:#1b1628;--line:#302640;
+      --purple:#9b6dff;--purple2:#7045d6;--text:#f6f1ff;--muted:#a89bbd;
+      --green:#69e6b1;--red:#ff8297;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at 80% -10%,#2c1c48 0,transparent 35%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;min-height:100vh}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 5%;border-bottom:1px solid #2c2339;background:#0c0a12e8;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+    .logo{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#b28aff,#6740c9);box-shadow:0 6px 25px #8a5aff40;font-size:22px}
+    .online{font-size:12px;color:var(--green);border:1px solid #2e5b4b;padding:7px 10px;border-radius:99px;white-space:nowrap}
+    .hero{max-width:1100px;margin:0 auto;padding:38px 18px 24px;text-align:center}
+    .eyebrow{color:#c5aaff;font-size:13px;font-weight:700;letter-spacing:.2px}
+    h1{font-size:clamp(27px,6vw,44px);line-height:1.25;margin:12px 0}
+    h1 span{color:#b99aff}
+    .hero p{color:var(--muted);max-width:620px;margin:0 auto;line-height:1.9;font-size:15px}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 16px 40px}
+    .prompt-card,.panel{background:linear-gradient(145deg,#191425,#100e18);border:1px solid var(--line);border-radius:20px;box-shadow:0 15px 45px #0002}
+    .prompt-card{padding:16px;margin-bottom:18px}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .section-head h2{font-size:16px;margin:0}
+    .hint{font-size:12px;color:var(--muted)}
+    textarea{width:100%;min-height:105px;resize:vertical;background:#0d0b14;border:1px solid #382b4b;border-radius:14px;padding:14px;color:var(--text);outline:none;line-height:1.8}
+    textarea:focus,input:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px #9b6dff20}
+    .prompt-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+    .btn{border:1px solid #443355;background:#211a30;color:var(--text);padding:10px 14px;border-radius:12px;font-weight:700;font-size:13px;transition:.2s}
+    .btn:hover{transform:translateY(-1px);border-color:#8c68cf}
+    .btn.primary{background:linear-gradient(135deg,#a477ff,#7043d4);border:0;color:white;box-shadow:0 8px 22px #7043d440}
+    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .workspace{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .panel{padding:16px;min-width:0}
+    .panel-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+    .panel-title h2{font-size:16px;margin:0}
+    .count{background:#2a203b;color:#cdb7ff;padding:5px 9px;border-radius:8px;font-size:12px}
+    .block-area{min-height:270px;border:1px dashed #49375e;border-radius:14px;padding:12px;background:#0d0b14}
+    .empty{text-align:center;color:var(--muted);padding:54px 10px;line-height:1.9;font-size:13px}
+    .block{padding:12px;border-radius:12px;margin-bottom:10px;background:linear-gradient(100deg,#5b3ba4,#34224f);border:1px solid #8e69d1;box-shadow:0 5px 16px #0002;cursor:grab;user-select:none}
+    .block:last-child{margin-bottom:0}
+    .block.dragging{opacity:.4}
+    .block-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:800}
+    .block small{display:block;color:#e2d5ff;margin-top:6px;font-size:11px}
+    .block .remove{border:0;border-radius:7px;background:#ffffff1c;color:#fff;padding:4px 8px}
+    .codebox{direction:ltr;text-align:left;background:#08070c;border:1px solid #30263d;border-radius:14px;min-height:270px;overflow:auto}
+    pre{margin:0;padding:15px;white-space:pre-wrap;word-break:break-word;color:#c9f7df;font:12px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace}
+    .code-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+    .notice{margin-top:18px;padding:13px 15px;border-radius:13px;background:#21192f;border:1px solid #3d2e55;color:#cfc1e8;font-size:12px;line-height:1.9}
+    .notice strong{color:#e5d7ff}
+    footer{text-align:center;padding:20px;color:#746883;font-size:12px}
+    .toast{position:fixed;bottom:18px;left:50%;transform:translate(-50%,20px);opacity:0;background:#211a30;border:1px solid #7254a6;padding:12px 18px;border-radius:12px;z-index:10;transition:.25s;pointer-events:none;white-space:nowrap;font-size:13px}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:720px){.workspace{grid-template-columns:1fr}.hero{padding-top:28px}.topbar{padding:12px 4%}.brand{font-size:15px}.logo{width:38px;height:38px}.panel{padding:13px}.block-area,.codebox{min-height:220px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="logo">⌘</div><span>المبرمج العربي</span></div>
+    <div class="online">● النسخة التجريبية</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">مساحة البرمجة باللغة العربية</div>
+    <h1>حوّل فكرتك إلى <span>بلوكات وكود</span></h1>
+    <p>اكتب ما تريد صنعه، أنشئ بلوكات برمجية، رتّبها بالسحب والإفلات، وشاهد الكود الناتج أمامك.</p>
+  </section>
+
+  <main class="wrap">
+    <section class="prompt-card">
+      <div class="section-head">
+        <h2>✦ ماذا تريد أن تبني؟</h2>
+        <span class="hint">اكتب بالعربية</span>
+      </div>
+      <textarea id="request" placeholder="مثال: أنشئ زرّاً وعند الضغط عليه اعرض رسالة أهلاً بك"></textarea>
+      <div class="prompt-actions">
+        <button class="btn primary" id="generate">✦ إنشاء البلوكات</button>
+        <button class="btn" id="addMessage">＋ بلوك رسالة</button>
+        <button class="btn" id="addButton">＋ بلوك زر</button>
+        <button class="btn" id="clear">مسح الكل</button>
+      </div>
+    </section>
+
+    <div class="workspace">
+      <section class="panel">
+        <div class="panel-title"><h2>🧩 مساحة البلوكات</h2><span class="count" id="count">0 بلوك</span></div>
+        <div class="block-area" id="blockArea">
+          <div class="empty" id="empty">ستظهر البلوكات هنا.<br>اكتب طلباً بالأعلى أو أضف بلوكاً.</div>
+        </div>
+        <div class="hint" style="margin-top:9px">يمكنك سحب البلوكات لتغيير ترتيبها.</div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title"><h2>⌨️ الكود الناتج</h2><span class="count">JavaScript</span></div>
+        <div class="codebox"><pre id="code">// سيظهر الكود هنا بعد إضافة البلوكات</pre></div>
+        <div class="code-actions"><button class="btn" id="copy">نسخ الكود</button></div>
+      </section>
+    </div>
+
+    <div class="notice"><strong>ملاحظة مهمة:</strong> هذه نسخة أولية تعمل داخل المتصفح وتولّد الكود للوظائف التجريبية فقط. إنشاء بلوكات لأي وظيفة جديدة بالذكاء الاصطناعي يحتاج إلى ربط آمن بخدمة ذكاء اصطناعي، وسنضيفه في مرحلة لاحقة. لا تضع مفاتيح API السرية في هذا الملف.</div>
+  </main>
+  <footer>المبرمج العربي © 2026 — نبني فكرتك خطوة بخطوة</footer>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const area = document.getElementById('blockArea');
+    const empty = document.getElementById('empty');
+    const count = document.getElementById('count');
+    const code = document.getElementById('code');
+    const toast = document.getElementById('toast');
+    let blocks = [];
+    let nextId = 1;
+    let dragId = null;
+    let toastTimer;
+
+    const templates = {
+      message: {title:'اعرض رسالة', detail:'إظهار رسالة للمستخدم', value:'أهلاً بك', code:(v)=>`showMessage(${JSON.stringify(v)});`},
+      button: {title:'أنشئ زرّاً', detail:'إنشاء زر عند الضغط عليه ينفذ أمراً', value:'اضغط هنا', code:(v)=>`createButton(${JSON.stringify(v)}, () => {\n  showMessage("تم الضغط على الزر");\n});`},
+      variable: {title:'أنشئ متغيراً', detail:'حفظ قيمة لاستخدامها لاحقاً', value:'اسمي', code:(v)=>`let ${safeVariable(v)} = "";`},
+      log: {title:'اطبع في السجل', detail:'عرض معلومة للتجربة', value:'بدأ التطبيق', code:(v)=>`console.log(${JSON.stringify(v)});`}
+    };
+
+    function safeVariable(v){
+      const cleaned = String(v || 'myValue').replace(/[^\u0600-\u06FFa-zA-Z0-9_$]/g,'_');
+      return /^[0-9]/.test(cleaned) ? 'my_' + cleaned : (cleaned || 'myValue');
+    }
+    function notify(msg){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toast.classList.remove('show'),2200);
+    }
+    function addBlock(type, value){
+      const t = templates[type];
+      if(!t) return;
+      blocks.push({id:nextId++,type,value:value ?? t.value});
+      render();
+    }
+    function removeBlock(id){
+      blocks = blocks.filter(b=>b.id!==id);
+      render();
+    }
+    function render(){
+      area.innerHTML = '';
+      if(!blocks.length){
+        area.appendChild(empty);
+        empty.style.display = 'block';
+      }else{
+        blocks.forEach((b,index)=>{
+          const t=templates[b.type];
+          const el=document.createElement('div');
+          el.className='block';
+          el.draggable=true;
+          el.dataset.id=b.id;
+          const head=document.createElement('div');
+          head.className='block-head';
+          const title=document.createElement('span');
+          title.textContent=(index+1)+'. '+t.title;
+          const remove=document.createElement('button');
+          remove.className='remove'; remove.type='button'; remove.textContent='×'; remove.title='حذف البلوك';
+          remove.addEventListener('click',()=>removeBlock(b.id));
+          head.append(title,remove);
+          const small=document.createElement('small');
+          small.textContent=t.detail+' — القيمة: '+b.value;
+          el.append(head,small);
+          el.addEventListener('dragstart',e=>{dragId=b.id;el.classList.add('dragging');e.dataTransfer.setData('text/plain',String(b.id));});
+          el.addEventListener('dragend',()=>el.classList.remove('dragging'));
+          el.addEventListener('dragover',e=>e.preventDefault());
+          el.addEventListener('drop',e=>{
+            e.preventDefault();
+            const from=blocks.findIndex(x=>x.id===dragId);
+            const to=blocks.findIndex(x=>x.id===b.id);
+            if(from<0||to<0||from===to)return;
+            const [moved]=blocks.splice(from,1);blocks.splice(to,0,moved);render();
+          });
+          area.appendChild(el);
+        });
+      }
+      count.textContent=blocks.length+' بلوك';
+      code.textContent=blocks.length ? blocks.map(b=>templates[b.type].code(b.value)).join('\n\n') : '// سيظهر الكود هنا بعد إضافة البلوكات';
+    }
+    function inferRequest(text){
+      const s=text.toLowerCase();
+      const made=[];
+      if(/زر|button/.test(s)) made.push(['button',/رسالة|اهلا|أهلا|ترحيب/.test(s)?'اضغط هنا':'زر جديد']);
+      if(/رسالة|اهلا|أهلا|ترحيب|تنبيه|اعرض/.test(s)) made.push(['message',/وداع/.test(s)?'إلى اللقاء':'أهلاً بك']);
+      if(/متغير|احفظ|تخزين قيمة/.test(s)) made.push(['variable','myValue']);
+      if(/سجل|اطبع|console/.test(s)) made.push(['log','بدأ التطبيق']);
+      if(!made.length) return false;
+      made.forEach(([type,value])=>addBlock(type,value));
+      return true;
+    }
+
+    document.getElementById('generate').addEventListener('click',()=>{
+      const request=document.getElementById('request').value.trim();
+      if(!request){notify('اكتب وصف الوظيفة أولاً');return;}
+      blocks=[];
+      const ok=inferRequest(request);
+      if(ok) notify('تم إنشاء بلوكات تجريبية من طلبك');
+      else {
+        addBlock('message','لم يتم التعرف على الوظيفة بعد');
+        notify('هذه الوظيفة غير متاحة في النسخة التجريبية');
+      }
+    });
+    document.getElementById('addMessage').addEventListener('click',()=>addBlock('message'));
+    document.getElementById('addButton').addEventListener('click',()=>addBlock('button'));
+    document.getElementById('clear').addEventListener('click',()=>{blocks=[];render();notify('تم مسح البلوكات');});
+    document.getElementById('copy').addEventListener('click',async()=>{
+      try{
+        await navigator.clipboard.writeText(code.textContent);
+        notify('تم نسخ الكود');
+      }catch(e){
+        const range=document.createRange();range.selectNodeContents(code);
+        const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
+        notify('حدّد الكود ثم اختر نسخ');
+      }
+    });
+    render();
+  </script>
+</body>
+          </html>
